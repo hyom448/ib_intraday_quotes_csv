@@ -1,6 +1,7 @@
 from typing import Dict, List
-
 from ib_insync import *
+
+ib = IB()
 # util.startLoop()  # uncomment this line when in a notebook
 logger = None  # see logger_configuration() for global variable initialisation
 
@@ -468,46 +469,53 @@ futures_list: List[Dict] = [
     # {"Symbol": 'NIY', "FullName": "Nikkei225_FUT", "Exchange": "GLOBEX", "Currency": "JPY"},
 ]
 
-logger_configuration()
 
-ib = IB()
-ib_live_trading_api_port_number = 7496  # live trading account
-ib_paper_trading_api_port_number = 7498  # paper trading account
-# ib_api_port_number = ib_paper_trading_api_port_number
-ib_api_port_number = ib_live_trading_api_port_number
-if ib_api_port_number == ib_live_trading_api_port_number:
-    ib.connect('127.0.0.1', ib_api_port_number, clientId=1, readonly=True)
-elif ib_api_port_number == ib_paper_trading_api_port_number:
-    ib.connect('127.0.0.1', ib_api_port_number, clientId=1, readonly=False)
-else:
-    ib.connect('127.0.0.1', ib_api_port_number, clientId=1, readonly=True)
+def main() -> None:
+    logger_configuration()
 
-# Uncomment to download recent intraday data
-amibroker_db_path = "C:/AmiB/Forex-Intraday-import-db"
-data_folderpath = "./data/recent/"
-historical_data_folderpath = "./data/"
-# for some reason, if use <25 days download, some SGX futures symbol will fail to download. Need to lengthen to 30 days.
-# For some futures like MXTH, MXMY, need to lengthen to 70
-# days_to_download = 30
-# days_to_download = 70
-days_to_download = 5
+    ib_live_trading_api_port_number = 7496  # live trading account
+    ib_paper_trading_api_port_number = 7498  # paper trading account
+    # ib_api_port_number = ib_paper_trading_api_port_number
+    ib_api_port_number = ib_live_trading_api_port_number
+    if ib_api_port_number == ib_live_trading_api_port_number:
+        ib.connect('127.0.0.1', ib_api_port_number, clientId=1, readonly=True)
+    elif ib_api_port_number == ib_paper_trading_api_port_number:
+        ib.connect('127.0.0.1', ib_api_port_number, clientId=1, readonly=False)
+    else:
+        ib.connect('127.0.0.1', ib_api_port_number, clientId=1, readonly=True)
 
-download_recent_intraday_data(folderpath=data_folderpath, number_of_days=days_to_download,
-                              download_list=cfd_list, contract_type="cfd")
-download_recent_intraday_data(folderpath=data_folderpath, number_of_days=days_to_download,
-                              download_list=forex_symbol_list, contract_type="forex")
-download_recent_intraday_data(folderpath=data_folderpath, number_of_days=days_to_download,
-                              download_list=futures_list, contract_type="cont_futures")
+    # Uncomment to download recent intraday data
+    data_folderpath = "./data/recent/"
+    historical_data_folderpath = "./data/"
+    # for some reason, if use <25 days download, some SGX futures symbol will fail to download.
+    # Need to lengthen to 30 days.
+    # For some futures like MXTH, MXMY, need to lengthen to 70
+    # days_to_download = 30
+    # days_to_download = 70
+    days_to_download = 5
 
-# download_recent_intraday_data(folderpath=data_folderpath, number_of_days=days_to_download,
-#                               download_list=indices_list, contract_type="index")
+    download_recent_intraday_data(folderpath=data_folderpath, number_of_days=days_to_download,
+                                  download_list=cfd_list, contract_type="cfd")
+    download_recent_intraday_data(folderpath=data_folderpath, number_of_days=days_to_download,
+                                  download_list=forex_symbol_list, contract_type="forex")
+    download_recent_intraday_data(folderpath=data_folderpath, number_of_days=days_to_download,
+                                  download_list=futures_list, contract_type="cont_futures")
 
-# Uncomment to download historical intraday data. Go back to multi-year data
-# data_folderpath = "./data/historical/"
-# download_historical_intraday_data(contract_type="forex", folderpath=historical_data_folderpath,
-#                                   download_list=forex_symbol_list)
-# download_historical_intraday_data(contract_type="cfd", folderpath=historical_data_folderpath, download_list=cfd_list)
-# download_historical_intraday_data(contract_type="index", folderpath=historical_data_folderpath,
-#                                   download_list=indices_list)
-# download_historical_intraday_data(contract_type="cont_futures", folderpath=historical_data_folderpath,
-#                                   download_list=futures_list)
+    # download_recent_intraday_data(folderpath=data_folderpath, number_of_days=days_to_download,
+    #                               download_list=indices_list, contract_type="index")
+
+    # Uncomment to download historical intraday data. Go back to multi-year data
+    # data_folderpath = "./data/historical/"
+    # download_historical_intraday_data(contract_type="forex", folderpath=historical_data_folderpath,
+    #                                   download_list=forex_symbol_list)
+    # download_historical_intraday_data(contract_type="cfd", folderpath=historical_data_folderpath,
+    #                                   download_list=cfd_list)
+    # download_historical_intraday_data(contract_type="index", folderpath=historical_data_folderpath,
+    #                                   download_list=indices_list)
+    # download_historical_intraday_data(contract_type="cont_futures", folderpath=historical_data_folderpath,
+    #                                   download_list=futures_list)
+    return None
+
+
+if __name__ == "__main__":
+    main()
