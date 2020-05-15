@@ -2,8 +2,8 @@
 Price quotes download from Interactive Brokers
 
 # Project description
-This python script downloads intraday **hourly** price quotes of futures, forex, CFDs from 
-Interactive Brokers(IBKR) into csv files.
+This python script downloads intraday **hourly** price quotes of futures, forex, CFDs using 
+Interactive Brokers(IBKR) API into csv files.
 
 Samples of the csv files are located in folder `data/recent/ `
 
