@@ -17,3 +17,4 @@ IBKR customers. Please check with IBKR.
 [documentation](https://interactivebrokers.github.io/tws-api/initial_setup.html). The port number in the script is to be matched with the port number set in TWS. 
 
 
+This script is not affiliated with Interactive Brokers Group, Inc.'s.
